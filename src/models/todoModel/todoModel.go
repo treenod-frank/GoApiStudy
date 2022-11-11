@@ -1,8 +1,6 @@
 package todoModel
 
 import (
-	"errors"
-	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -41,50 +39,20 @@ func GetTodo(id int) (Todo, *gorm.DB) {
 }
 
 func CreateTodo(newData Todo) *gorm.DB {
-	var todos []Todo
 	db := getDbConn()
 	result := db.Create(&newData)
-	if result.Error == nil {
-		result := db.Table("todos").Find(&todos)
-		if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			fmt.Println(todos)
-		}
-	} else {
-		fmt.Println("Insert Error:", result.Error)
-	}
 
 	return result
 }
 
 func UpdateTodo(newData Todo) *gorm.DB {
-	var todos []Todo
 	db := getDbConn()
 	result := db.Save(&newData)
-	if result.Error == nil {
-		result := db.Table("todos").Where("id = ?", newData.Id).Find(&todos)
-		if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			fmt.Println(todos)
-		}
-	} else {
-
-		fmt.Println("Update Error:", result.Error)
-	}
-
 	return result
 }
 
 func DeleteTodo(newData Todo) *gorm.DB {
-	var todos []Todo
 	db := getDbConn()
 	result := db.Where("id = ?", newData.Id).Delete(&newData)
-	if result.Error == nil {
-		result := db.Table("todos").Find(&todos)
-		if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			fmt.Println(todos)
-		}
-	} else {
-		fmt.Println("Delete Error:", result.Error)
-	}
-
 	return result
 }

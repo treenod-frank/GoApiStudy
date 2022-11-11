@@ -29,14 +29,21 @@ func CreateTodo(newData todoModel.Todo) {
 	result := todoModel.CreateTodo(newData)
 
 	if result.Error != nil {
-		fmt.Println(result.Error)
+		fmt.Println("Insert Error:", result.Error)
 	}
 }
 
 func DeleteTodo(newData todoModel.Todo) {
-
+	result := todoModel.DeleteTodo(newData)
+	if result.Error != nil {
+		fmt.Println("Delete Error:", result.Error)
+	}
 }
 
 func UpdateTodo(newData todoModel.Todo) {
-	
+	result := todoModel.UpdateTodo(newData)
+
+	if result.Error != nil {
+		fmt.Println("Update Error:", result.Error)
+	}
 }

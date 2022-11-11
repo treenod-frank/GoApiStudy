@@ -1,7 +1,6 @@
 package todoCtrl
 
 import (
-	"GinAPI/src/models/todoModel"
 	"GinAPI/src/service/todoSvc"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -15,7 +14,7 @@ func Ping(c *gin.Context) {
 }
 
 func GetTodos(c *gin.Context) {
-	todos, _ := todoModel.GetTodos()
+	todos := todoSvc.GetTodos()
 	c.JSON(http.StatusOK, gin.H{
 		"todos": todos,
 	})
