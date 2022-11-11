@@ -18,6 +18,9 @@ func SetupRouteTable(r *gin.Engine) {
 		{
 			"/addTodos", todoCtrl.AddTodos,
 		},
+		{
+			"/updateTodos", todoCtrl.UpdateTodos,
+		},
 	}
 
 	for _, routeInfo := range routePostInfos {

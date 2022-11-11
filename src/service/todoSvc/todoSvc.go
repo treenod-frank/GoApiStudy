@@ -53,10 +53,8 @@ func DeleteTodo(newData todoModel.Todo) {
 	}
 }
 
-func UpdateTodo(newData todoModel.Todo) {
-	result := todoModel.UpdateTodo(newData)
+func UpdateTodo(newData []todoModel.Todo) ([]todoModel.Todo, error) {
+	result, err := todoModel.UpdateTodo(newData)
 
-	if result.Error != nil {
-		fmt.Println("Update Error:", result.Error)
-	}
+	return result, err
 }
