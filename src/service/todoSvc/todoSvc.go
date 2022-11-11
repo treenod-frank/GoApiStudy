@@ -5,8 +5,18 @@ import (
 	"fmt"
 )
 
-func GetTodo(id int) todoModel.Todo {
-	todo, result := todoModel.GetTodo(id)
+func GetTodoById(id int) todoModel.Todo {
+	todo, result := todoModel.GetTodoById(id)
+
+	if result.Error != nil {
+		fmt.Println(result.Error)
+	}
+
+	return todo
+}
+
+func GetTodoByUserId(id int) todoModel.Todo {
+	todo, result := todoModel.GetTodoByUserId(id)
 
 	if result.Error != nil {
 		fmt.Println(result.Error)

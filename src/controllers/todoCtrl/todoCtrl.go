@@ -23,7 +23,7 @@ func GetTodos(c *gin.Context) {
 func GetTodo(c *gin.Context) {
 	id := c.Param("id")
 	index, _ := strconv.Atoi(id)
-	todo := todoSvc.GetTodo(index)
+	todo := todoSvc.GetTodoById(index)
 	c.JSON(http.StatusOK, gin.H{
 		"todos": todo,
 	})

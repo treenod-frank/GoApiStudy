@@ -31,10 +31,17 @@ func GetTodos() ([]Todo, *gorm.DB) {
 	return todos, result
 }
 
-func GetTodo(id int) (Todo, *gorm.DB) {
+func GetTodoById(id int) (Todo, *gorm.DB) {
 	var todos []Todo
 	db := getDbConn()
 	result := db.Table("todos").Where("id = ?", id).Find(&todos)
+	return todos[0], result
+}
+
+func GetTodoByUserId(id int) (Todo, *gorm.DB) {
+	var todos []Todo
+	db := getDbConn()
+	result := db.Table("todos").Where("userId = ?", id).Find(&todos)
 	return todos[0], result
 }
 
