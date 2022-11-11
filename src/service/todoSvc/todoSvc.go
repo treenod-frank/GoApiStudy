@@ -25,22 +25,25 @@ func GetTodoByUserId(id int) todoModel.Todo {
 	return todo
 }
 
-func GetTodos() []todoModel.Todo {
-	todos, result := todoModel.GetTodos()
+func GetTodos(userId int) []todoModel.Todo {
+	todos, err := todoModel.GetTodos(userId)
 
-	if result.Error != nil {
-		fmt.Println(result.Error)
+	if err != nil {
+		panic(err)
 	}
 
 	return todos
 }
 
-func CreateTodo(newData todoModel.Todo) {
-	result := todoModel.CreateTodo(newData)
-
-	if result.Error != nil {
-		fmt.Println("Insert Error:", result.Error)
+func CreateTodo(title string, userId int) (todoModel.Todo, error) {
+	newData := todoModel.Todo{
+		Title:  title,
+		UserId: userId,
 	}
+
+	newData, err := todoModel.CreateTodo(newData)
+
+	return newData, err
 }
 
 func DeleteTodo(newData todoModel.Todo) {
