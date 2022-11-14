@@ -36,7 +36,7 @@ func CreateTodo(newData Todo) (Todo, error) {
 	return newData, err
 }
 
-func UpdateTodo(newData []Todo) ([]Todo, error) {
+func UpdateTodo(newData Todo) (Todo, error) {
 	err := db.GetORM().Save(&newData).Error
 	return newData, err
 }

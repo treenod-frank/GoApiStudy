@@ -2,12 +2,11 @@ package todoCtrl
 
 import (
 	"GinAPI/src/models/todoModel"
+	"GinAPI/src/pkpk"
 	"GinAPI/src/service/todoSvc"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 const RET_OK = 1
@@ -19,7 +18,9 @@ func Ping(c *gin.Context) {
 }
 
 func GetTodos(c *gin.Context) {
-	userId := 1
+	q := pkpk.GetRequestParam(c)
+
+	userId, _ := strconv.Atoi(q[0])
 	todos, err := todoModel.GetTodos(userId)
 
 	if err != nil {
@@ -33,8 +34,9 @@ func GetTodos(c *gin.Context) {
 }
 
 func AddTodos(c *gin.Context) {
-	title := "new title"
-	userId := 1127
+	q := pkpk.GetRequestParam(c)
+	title := q[0]
+	userId, _ := strconv.Atoi(q[1])
 	result, err := todoSvc.CreateTodo(title, userId)
 
 	if err != nil {
@@ -48,26 +50,24 @@ func AddTodos(c *gin.Context) {
 }
 
 func UpdateTodos(c *gin.Context) {
-	userId := 1127
+	q := pkpk.GetRequestParam(c)
 
-	if q, has := c.GetPostForm("q"); has {
-		inputList := strings.Split(q, ",")
-		fmt.Println(inputList)
-	}
+	id, _ := strconv.Atoi(q[0])
+	userId, _ := strconv.Atoi(q[1])
+	completed, _ := strconv.ParseBool(q[2])
 
-	todos, err := todoModel.GetTodos(userId)
+	todos, err := todoModel.GetTodoById(id)
 
 	if err != nil {
 		panic(err)
 	}
 
-	for index := range todos {
-		todos[index].Completed = true
-	}
+	todos.Completed = completed
+	todos.UserId = userId
 
-	result, err := todoSvc.UpdateTodo(todos)
+	result, err2 := todoSvc.UpdateTodo(todos)
 
-	if err != nil {
+	if err2 != nil {
 		panic(err)
 	}
 
@@ -84,4 +84,20 @@ func GetTodo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"todos": todo,
 	})
+}
+
+func AddTodo(c *gin.Context) {
+	q := pkpk.GetRequestParam(c)
+	title := q[0]
+	userId, _ := strconv.Atoi(q[1])
+	_, err := todoSvc.CreateTodo(title, userId)
+
+	if err != nil {
+		panic(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"ret": RET_OK,
+	})
+
 }

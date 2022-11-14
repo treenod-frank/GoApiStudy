@@ -53,7 +53,7 @@ func DeleteTodo(newData todoModel.Todo) {
 	}
 }
 
-func UpdateTodo(newData []todoModel.Todo) ([]todoModel.Todo, error) {
+func UpdateTodo(newData todoModel.Todo) (todoModel.Todo, error) {
 	result, err := todoModel.UpdateTodo(newData)
 
 	return result, err
